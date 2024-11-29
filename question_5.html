@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>question 5</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            color: white;
+            font-family: Arial, sans-serif;
+            position: relative;
+        }
+        canvas {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .overlay-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 10;
+        }
+        .overlay {
+            font-size: 3em;
+            font-weight: bold;
+            font-family: monospace;
+            color: white;
+            margin-bottom: 20px;
+        }
+        .input-container {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .user-input {
+            padding: 10px;
+            font-size: 1.54em;
+            border: 2px solid white; /* White border */
+            border-radius: 0; /* No rounded edges */
+            background-color: transparent; /* No fill */
+            color: pink; /* Transparent text */
+            font-family: Arial, sans-serif; /* Same font as other text */
+            width: 300px;
+            max-width: 80%;
+            box-sizing: border-box; /* Include padding in width */
+            outline: none; /* Remove outline on focus */
+        }
+        .user-input::placeholder {
+            color: white; /* Placeholder color */
+        }
+        .overlay-small {
+            font-size: 1.5em;
+            color: white;
+            pointer-events: auto;
+            text-decoration: none;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay-container">
+        <div class="overlay">PLEASE GET FAR FAR FAR AWAY FROM YOUR COMPUTER NOW (but just close enough so you can still reach your keyboard). Also, make sure you are standing in a very uncomfortable position. Now, think of one of your most difficult times in life, what is a valuable lesson from this experience that shaped you positively?</div>
+        <div class="input-container">
+            <input type="text" class="user-input" id="userTime" placeholder="     only W's in the chat">
+        </div>
+        <a class="overlay-small" href="#" onclick="storeTimeAndRedirect()">Another unique question awaits...</a>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        let scene, camera, renderer;
+        let geometry, material, mesh;
+
+        function init() {
+            scene = new THREE.Scene();
+
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 5;
+
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+
+            geometry = new THREE.TorusKnotGeometry(700, 1000, 623, 80);
+            material = new THREE.MeshNormalMaterial();
+
+            mesh = new THREE.Mesh(geometry, material);
+            scene.add(mesh);
+
+            animate();
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            mesh.rotation.x += 0.01;
+            mesh.rotation.y += 0.09;
+
+            renderer.render(scene, camera);
+        }
+
+        function storeTimeAndRedirect() {
+            let time = document.getElementById("userTime").value.trim();
+            let nextPage = "question_6.html"; // Next question page
+
+            if (time !== "") {
+                localStorage.setItem("userTime5", time); // Use a unique key for question 5
+                window.location.href = nextPage;
+            } else {
+                alert("Please enter your response.");
+            }
+        }
+
+        init();
+    </script>
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>question 8</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            color: white;
+            font-family: Arial, sans-serif;
+            position: relative;
+        }
+        canvas {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .overlay-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 10;
+        }
+        .overlay {
+            font-size: 1.8em;
+            font-weight: bold;
+            font-family: monospace;
+            color: white;
+            margin-bottom: 20px;
+        }
+        .input-container {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .user-input {
+            padding: 10px;
+            font-size: 1.2em;
+            border: 2px solid white; /* White border */
+            border-radius: 0; /* No rounded edges */
+            background-color: transparent; /* No fill */
+            color: pink; /* Transparent text */
+            font-family: Arial, sans-serif; /* Same font as other text */
+            width: 300px;
+            max-width: 80%;
+            box-sizing: border-box; /* Include padding in width */
+            outline: none; /* Remove outline on focus */
+        }
+        .user-input::placeholder {
+            color: white; /* Placeholder color */
+        }
+        .overlay-small {
+            font-size: 1.5em;
+            color: white;
+            pointer-events: auto;
+            text-decoration: none;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay-container">
+        <div class="overlay">Ha! That was a lie, surprise! I deceived you. <br> <br> Anyways, to conclude, I'd like you to give three words, one to your past, present, and future self. Maybe you want to congratulate yourself, forgive yourself, roast yourself, etc. Whatever it may be, you can do it here.</div>
+        <div class="input-container">
+            <input type="text" class="user-input" id="userWords" placeholder="    words * 3 or words \times 3">
+        </div>
+        <a class="overlay-small" href="#" onclick="nextQuestion()">Awaits a special and unique treat</a>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        let scene, camera, renderer;
+        let geometry, material, mesh;
+
+        function init() {
+            scene = new THREE.Scene();
+
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 5;
+
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+
+            geometry = new THREE.TorusKnotGeometry(10, 10, 3, 8);
+            material = new THREE.MeshNormalMaterial();
+
+            mesh = new THREE.Mesh(geometry, material);
+            scene.add(mesh);
+
+            animate();
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            mesh.rotation.x += 0.1;
+            mesh.rotation.y += 0.1;
+
+            renderer.render(scene, camera);
+        }
+
+        function nextQuestion() {
+            let words = document.getElementById("userWords").value.trim();
+            let nextPage = "collage.html"; // Page to store variables
+
+            if (words !== "") {
+                localStorage.setItem("userWords", words);
+                window.location.href = nextPage;
+            } else {
+                alert("Please enter your words.");
+            }
+        }
+
+        init();
+    </script>
+</body>
+</html>
